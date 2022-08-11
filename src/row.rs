@@ -242,6 +242,12 @@ impl<T: FromSql> RowValue for T {
     }
 }
 
+unsafe impl Sync for Row {}
+unsafe impl Send for Row {}
+
+unsafe impl<'a, T> Sync for ResultSet<'a, T> where T: RowValue {}
+unsafe impl<'a, T> Send for ResultSet<'a, T> where T: RowValue {}
+
 macro_rules! impl_row_value_for_tuple {
     ($(
         [$(($idx:tt, $T:ident))+],
